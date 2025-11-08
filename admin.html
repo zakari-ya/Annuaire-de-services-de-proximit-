@@ -1,172 +1,268 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Administration - Services de Proximité</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        .font-serif { font-family: 'Playfair Display', serif; }
-        .font-sans { font-family: 'Inter', sans-serif; }
-        .gradient-bg { background: linear-gradient(135deg, #f8f9f0 0%, #e8ebe3 100%); }
-        .pending-card { opacity: 0; transform: translateY(20px); }
-        .pending-card.visible { opacity: 1; transform: translateY(0); transition: all 0.5s ease; }
+      .font-serif {
+        font-family: "Playfair Display", serif;
+      }
+      .font-sans {
+        font-family: "Inter", sans-serif;
+      }
+      .gradient-bg {
+        background: linear-gradient(135deg, #f8f9f0 0%, #e8ebe3 100%);
+      }
+      .pending-card {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      .pending-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+        transition: all 0.5s ease;
+      }
     </style>
-</head>
-<body class="gradient-bg min-h-screen font-sans">
+  </head>
+  <body class="gradient-bg min-h-screen font-sans">
     <!-- Navigation -->
     <nav class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <a href="index.html" class="font-serif text-2xl font-bold text-gray-800">Services de Proximité</a>
-                </div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="index.html" class="text-gray-700 hover:text-gray-900 font-medium transition-colors">Accueil</a>
-                    <a href="index.html#providers" class="text-gray-700 hover:text-gray-900 font-medium transition-colors">Prestataires</a>
-                    <a href="index.html#add" class="text-gray-700 hover:text-gray-900 font-medium transition-colors">Ajouter</a>
-                    <a href="admin.html" class="text-emerald-600 font-medium">Admin</a>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center">
+            <a
+              href="index.html"
+              class="font-serif text-2xl font-bold text-gray-800"
+              >Services de Proximité</a
+            >
+          </div>
+          <div class="hidden md:flex space-x-8">
+            <a
+              href="index.html"
+              class="text-gray-700 hover:text-gray-900 font-medium transition-colors"
+              >Accueil</a
+            >
+            <a
+              href="index.html#providers"
+              class="text-gray-700 hover:text-gray-900 font-medium transition-colors"
+              >Prestataires</a
+            >
+            <a
+              href="ajouter.html"
+              class="text-gray-700 hover:text-gray-900 font-medium transition-colors"
+              >Ajouter</a
+            >
+            <a href="admin.html" class="text-emerald-600 font-medium">Admin</a>
+          </div>
         </div>
+      </div>
     </nav>
 
     <!-- Contenu principal -->
     <main class="py-12 px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-12">
-                <h1 class="font-serif text-4xl font-bold text-gray-800 mb-4">Administration</h1>
-                <p class="text-xl text-gray-600">Modérez les prestataires en attente de validation</p>
-            </div>
-
-            <!-- Statistiques -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
-                    <div class="text-3xl font-bold text-blue-600 mb-2" id="totalProviders">0</div>
-                    <div class="text-gray-600">Total prestataires</div>
-                </div>
-                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
-                    <div class="text-3xl font-bold text-emerald-600 mb-2" id="validatedProviders">0</div>
-                    <div class="text-gray-600">Validés</div>
-                </div>
-                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
-                    <div class="text-3xl font-bold text-orange-600 mb-2" id="pendingProviders">0</div>
-                    <div class="text-gray-600">En attente</div>
-                </div>
-            </div>
-
-            <!-- Section des prestataires en attente -->
-            <section class="mb-12">
-                <h2 class="font-serif text-2xl font-bold mb-8 text-gray-800">Prestataires en attente de validation</h2>
-                <div id="pendingList" class="space-y-6">
-                    <!-- Les prestataires en attente seront injectés ici -->
-                </div>
-                <div id="noPending" class="hidden text-center py-12">
-                    <div class="text-gray-400 mb-4">
-                        <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <p class="text-gray-500 text-lg">Aucun prestataire en attente de validation</p>
-                </div>
-            </section>
-
-            <!-- Section des prestataires validés -->
-            <section>
-                <h2 class="font-serif text-2xl font-bold mb-8 text-gray-800">Prestataires validés</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="validatedList">
-                    <!-- Les prestataires validés seront injectés ici -->
-                </div>
-            </section>
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+          <h1 class="font-serif text-4xl font-bold text-gray-800 mb-4">
+            Administration
+          </h1>
+          <p class="text-xl text-gray-600">
+            Modérez les prestataires en attente de validation
+          </p>
         </div>
+
+        <!-- Statistiques -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+            <div
+              class="text-3xl font-bold text-blue-600 mb-2"
+              id="totalProviders"
+            >
+              0
+            </div>
+            <div class="text-gray-600">Total prestataires</div>
+          </div>
+          <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+            <div
+              class="text-3xl font-bold text-emerald-600 mb-2"
+              id="validatedProviders"
+            >
+              0
+            </div>
+            <div class="text-gray-600">Validés</div>
+          </div>
+          <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+            <div
+              class="text-3xl font-bold text-orange-600 mb-2"
+              id="pendingProviders"
+            >
+              0
+            </div>
+            <div class="text-gray-600">En attente</div>
+          </div>
+        </div>
+
+        <!-- Section des prestataires en attente -->
+        <section class="mb-12">
+          <h2 class="font-serif text-2xl font-bold mb-8 text-gray-800">
+            Prestataires en attente de validation
+          </h2>
+          <div id="pendingList" class="space-y-6">
+            <!-- Les prestataires en attente seront injectés ici -->
+          </div>
+          <div id="noPending" class="hidden text-center py-12">
+            <div class="text-gray-400 mb-4">
+              <svg
+                class="w-16 h-16 mx-auto"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+            </div>
+            <p class="text-gray-500 text-lg">
+              Aucun prestataire en attente de validation
+            </p>
+          </div>
+        </section>
+
+        <!-- Section des prestataires validés -->
+        <section>
+          <h2 class="font-serif text-2xl font-bold mb-8 text-gray-800">
+            Prestataires validés
+          </h2>
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            id="validatedList"
+          >
+            <!-- Les prestataires validés seront injectés ici -->
+          </div>
+        </section>
+      </div>
     </main>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-8 px-4 mt-16">
-        <div class="max-w-6xl mx-auto text-center">
-            <p class="font-serif text-xl mb-4">Services de Proximité</p>
-            <p class="text-gray-400">© 2024 - Tous droits réservés</p>
-        </div>
+      <div class="max-w-6xl mx-auto text-center">
+        <p class="font-serif text-xl mb-4">Services de Proximité</p>
+        <p class="text-gray-400">© 2024 - Tous droits réservés</p>
+      </div>
     </footer>
 
     <!-- Modal de confirmation -->
-    <div id="confirmModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white rounded-2xl p-8 max-w-md mx-4 text-center">
-            <div class="text-emerald-600 mb-4">
-                <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-            </div>
-            <h3 class="font-serif text-2xl font-bold mb-4">Validation réussie</h3>
-            <p class="text-gray-600 mb-6">Le prestataire a été validé et est maintenant visible sur le site.</p>
-            <button onclick="closeConfirmModal()" class="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700 transition-colors">
-                Compris
-            </button>
+    <div
+      id="confirmModal"
+      class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    >
+      <div class="bg-white rounded-2xl p-8 max-w-md mx-4 text-center">
+        <div class="text-emerald-600 mb-4">
+          <svg
+            class="w-16 h-16 mx-auto"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
         </div>
+        <h3 class="font-serif text-2xl font-bold mb-4">Validation réussie</h3>
+        <p class="text-gray-600 mb-6">
+          Le prestataire a été validé et est maintenant visible sur le site.
+        </p>
+        <button
+          onclick="closeConfirmModal()"
+          class="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700 transition-colors"
+        >
+          Compris
+        </button>
+      </div>
     </div>
 
     <script>
-        let providers = [];
-        let currentActionProvider = null;
+      let providers = [];
+      let currentActionProvider = null;
 
-        // Charger les prestataires
-        function loadProviders() {
-            const savedProviders = localStorage.getItem('providers');
-            providers = savedProviders ? JSON.parse(savedProviders) : [];
+      // Charger les prestataires
+      function loadProviders() {
+        const savedProviders = localStorage.getItem("providers");
+        providers = savedProviders ? JSON.parse(savedProviders) : [];
+      }
+
+      // Sauvegarder les prestataires
+      function saveProviders() {
+        localStorage.setItem("providers", JSON.stringify(providers));
+      }
+
+      // Mettre à jour les statistiques
+      function updateStats() {
+        const total = providers.length;
+        const validated = providers.filter((p) => p.validated).length;
+        const pending = providers.filter((p) => !p.validated).length;
+
+        document.getElementById("totalProviders").textContent = total;
+        document.getElementById("validatedProviders").textContent = validated;
+        document.getElementById("pendingProviders").textContent = pending;
+
+        // Animer les chiffres
+        anime({
+          targets: "#totalProviders, #validatedProviders, #pendingProviders",
+          scale: [1.2, 1],
+          duration: 300,
+          easing: "easeOutQuad",
+        });
+      }
+
+      // Afficher les prestataires en attente
+      function renderPendingProviders() {
+        const pendingProviders = providers.filter((p) => !p.validated);
+        const container = document.getElementById("pendingList");
+        const noPending = document.getElementById("noPending");
+
+        if (pendingProviders.length === 0) {
+          container.innerHTML = "";
+          noPending.classList.remove("hidden");
+          return;
         }
 
-        // Sauvegarder les prestataires
-        function saveProviders() {
-            localStorage.setItem('providers', JSON.stringify(providers));
-        }
+        noPending.classList.add("hidden");
 
-        // Mettre à jour les statistiques
-        function updateStats() {
-            const total = providers.length;
-            const validated = providers.filter(p => p.validated).length;
-            const pending = providers.filter(p => !p.validated).length;
-
-            document.getElementById('totalProviders').textContent = total;
-            document.getElementById('validatedProviders').textContent = validated;
-            document.getElementById('pendingProviders').textContent = pending;
-
-            // Animer les chiffres
-            anime({
-                targets: '#totalProviders, #validatedProviders, #pendingProviders',
-                scale: [1.2, 1],
-                duration: 300,
-                easing: 'easeOutQuad'
-            });
-        }
-
-        // Afficher les prestataires en attente
-        function renderPendingProviders() {
-            const pendingProviders = providers.filter(p => !p.validated);
-            const container = document.getElementById('pendingList');
-            const noPending = document.getElementById('noPending');
-
-            if (pendingProviders.length === 0) {
-                container.innerHTML = '';
-                noPending.classList.remove('hidden');
-                return;
-            }
-
-            noPending.classList.add('hidden');
-
-            container.innerHTML = pendingProviders.map(provider => `
+        container.innerHTML = pendingProviders
+          .map(
+            (provider) => `
                 <div class="pending-card bg-white rounded-xl shadow-lg p-6">
                     <div class="flex flex-col md:flex-row gap-6">
                         <div class="md:w-1/4">
-                            <img src="${provider.image}" alt="${provider.name}" class="w-full h-32 md:h-24 object-cover rounded-lg">
+                            <img src="${provider.image}" alt="${
+              provider.name
+            }" class="w-full h-32 md:h-24 object-cover rounded-lg">
                         </div>
                         <div class="md:w-3/4">
                             <div class="flex items-start justify-between mb-4">
                                 <div>
-                                    <h3 class="font-serif text-xl font-semibold text-gray-800 mb-2">${provider.name}</h3>
+                                    <h3 class="font-serif text-xl font-semibold text-gray-800 mb-2">${
+                                      provider.name
+                                    }</h3>
                                     <div class="flex items-center gap-4 text-sm text-gray-600 mb-2">
-                                        <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded">${provider.job}</span>
+                                        <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded">${
+                                          provider.job
+                                        }</span>
                                         <span class="flex items-center">
                                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
@@ -183,40 +279,52 @@
                                     </div>
                                 </div>
                                 <div class="flex gap-2">
-                                    <button onclick="validateProvider(${provider.id})" class="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors text-sm font-medium">
+                                    <button onclick="validateProvider(${
+                                      provider.id
+                                    })" class="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors text-sm font-medium">
                                         Valider
                                     </button>
-                                    <button onclick="deleteProvider(${provider.id})" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm font-medium">
+                                    <button onclick="deleteProvider(${
+                                      provider.id
+                                    })" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm font-medium">
                                         Refuser
                                     </button>
                                 </div>
                             </div>
-                            <p class="text-gray-600 text-sm mb-4">${provider.description}</p>
+                            <p class="text-gray-600 text-sm mb-4">${
+                              provider.description
+                            }</p>
                             <div class="text-xs text-gray-500">
-                                Ajouté le ${new Date(parseInt(provider.id)).toLocaleDateString('fr-FR')}
+                                Ajouté le ${new Date(
+                                  parseInt(provider.id)
+                                ).toLocaleDateString("fr-FR")}
                             </div>
                         </div>
                     </div>
                 </div>
-            `).join('');
+            `
+          )
+          .join("");
 
-            // Animer l'apparition des cartes
+        // Animer l'apparition des cartes
+        setTimeout(() => {
+          const cards = document.querySelectorAll(".pending-card");
+          cards.forEach((card, index) => {
             setTimeout(() => {
-                const cards = document.querySelectorAll('.pending-card');
-                cards.forEach((card, index) => {
-                    setTimeout(() => {
-                        card.classList.add('visible');
-                    }, index * 100);
-                });
-            }, 100);
-        }
+              card.classList.add("visible");
+            }, index * 100);
+          });
+        }, 100);
+      }
 
-        // Afficher les prestataires validés
-        function renderValidatedProviders() {
-            const validatedProviders = providers.filter(p => p.validated);
-            const container = document.getElementById('validatedList');
+      // Afficher les prestataires validés
+      function renderValidatedProviders() {
+        const validatedProviders = providers.filter((p) => p.validated);
+        const container = document.getElementById("validatedList");
 
-            container.innerHTML = validatedProviders.map(provider => `
+        container.innerHTML = validatedProviders
+          .map(
+            (provider) => `
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                     <img src="${provider.image}" alt="${provider.name}" class="w-full h-32 object-cover">
                     <div class="p-4">
@@ -233,73 +341,77 @@
                         </div>
                     </div>
                 </div>
-            `).join('');
+            `
+          )
+          .join("");
+      }
+
+      // Valider un prestataire
+      function validateProvider(providerId) {
+        const provider = providers.find((p) => p.id === providerId);
+        if (provider) {
+          provider.validated = true;
+          saveProviders();
+          updateStats();
+          renderPendingProviders();
+          renderValidatedProviders();
+          showConfirmModal();
         }
+      }
 
-        // Valider un prestataire
-        function validateProvider(providerId) {
-            const provider = providers.find(p => p.id === providerId);
-            if (provider) {
-                provider.validated = true;
-                saveProviders();
-                updateStats();
-                renderPendingProviders();
-                renderValidatedProviders();
-                showConfirmModal();
-            }
+      // Supprimer un prestataire
+      function deleteProvider(providerId) {
+        if (confirm("Êtes-vous sûr de vouloir supprimer ce prestataire ?")) {
+          providers = providers.filter((p) => p.id !== providerId);
+          saveProviders();
+          updateStats();
+          renderPendingProviders();
+          renderValidatedProviders();
         }
+      }
 
-        // Supprimer un prestataire
-        function deleteProvider(providerId) {
-            if (confirm('Êtes-vous sûr de vouloir supprimer ce prestataire ?')) {
-                providers = providers.filter(p => p.id !== providerId);
-                saveProviders();
-                updateStats();
-                renderPendingProviders();
-                renderValidatedProviders();
-            }
-        }
+      // Modifier un prestataire (fonction de base)
+      function editProvider(providerId) {
+        alert(
+          "Fonction de modification à développer selon les besoins spécifiques"
+        );
+      }
 
-        // Modifier un prestataire (fonction de base)
-        function editProvider(providerId) {
-            alert('Fonction de modification à développer selon les besoins spécifiques');
-        }
+      // Afficher le modal de confirmation
+      function showConfirmModal() {
+        document.getElementById("confirmModal").classList.remove("hidden");
 
-        // Afficher le modal de confirmation
-        function showConfirmModal() {
-            document.getElementById('confirmModal').classList.remove('hidden');
-            
-            anime({
-                targets: '#confirmModal .bg-white',
-                scale: [0.8, 1],
-                opacity: [0, 1],
-                duration: 300,
-                easing: 'easeOutQuad'
-            });
-        }
-
-        // Fermer le modal de confirmation
-        function closeConfirmModal() {
-            document.getElementById('confirmModal').classList.add('hidden');
-        }
-
-        // Initialisation
-        document.addEventListener('DOMContentLoaded', function() {
-            loadProviders();
-            updateStats();
-            renderPendingProviders();
-            renderValidatedProviders();
-
-            // Animation d'entrée
-            anime({
-                targets: '.bg-white',
-                translateY: [30, 0],
-                opacity: [0, 1],
-                duration: 600,
-                delay: anime.stagger(100),
-                easing: 'easeOutQuad'
-            });
+        anime({
+          targets: "#confirmModal .bg-white",
+          scale: [0.8, 1],
+          opacity: [0, 1],
+          duration: 300,
+          easing: "easeOutQuad",
         });
+      }
+
+      // Fermer le modal de confirmation
+      function closeConfirmModal() {
+        document.getElementById("confirmModal").classList.add("hidden");
+      }
+
+      // Initialisation
+      document.addEventListener("DOMContentLoaded", function () {
+        loadProviders();
+        updateStats();
+        renderPendingProviders();
+        renderValidatedProviders();
+
+        // Animation d'entrée
+        anime({
+          targets: ".bg-white",
+          translateY: [30, 0],
+          opacity: [0, 1],
+          duration: 600,
+          delay: anime.stagger(100),
+          easing: "easeOutQuad",
+        });
+      });
     </script>
-</body>
+  </body>
 </html>

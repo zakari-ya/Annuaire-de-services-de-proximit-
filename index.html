@@ -52,6 +52,21 @@
         transform: translateY(0);
         transition: all 0.5s ease;
       }
+
+      /* Add these styles to make the footer stick to the bottom */
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      main {
+        flex: 1;
+      }
+
+      footer {
+        margin-top: auto;
+      }
     </style>
   </head>
 
@@ -106,99 +121,104 @@
       </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="py-20 px-4">
-      <div class="max-w-4xl mx-auto text-center">
-        <h2
-          class="font-serif text-5xl md:text-6xl font-bold text-gray-800 mb-6"
-        >
-          Trouvez les meilleurs
-          <span class="text-emerald-600">artisans</span> de votre quartier
-        </h2>
-        <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-          Plombiers, coiffeurs, restaurateurs... Découvrez des professionnels de
-          confiance recommandés par votre communauté.
-        </p>
-        <button
-          onclick="scrollToSection('providers')"
-          class="bg-emerald-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-emerald-700 transition-colors shadow-lg"
-        >
-          Découvrir les prestataires
-        </button>
-      </div>
-    </section>
-
-    <!-- Filtres -->
-    <section id="filters" class="py-8 px-4 bg-white/50">
-      <div class="max-w-6xl mx-auto">
-        <div class="flex flex-wrap gap-4 justify-center items-center">
-          <div class="flex flex-col">
-            <label class="text-sm font-medium text-gray-700 mb-2"
-              >Quartier</label
-            >
-            <select
-              id="zoneFilter"
-              class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-            >
-              <option value="Tous">Tous les quartiers</option>
-              <option value="Centre-ville">Centre-ville</option>
-              <option value="Saint-Maurice">Saint-Maurice</option>
-              <option value="Bourgneuf">Bourgneuf</option>
-              <option value="Les Sables">Les Sables</option>
-              <option value="Château-Gaillard">Château-Gaillard</option>
-            </select>
-          </div>
-          <div class="flex flex-col">
-            <label class="text-sm font-medium text-gray-700 mb-2">Métier</label>
-            <select
-              id="metierFilter"
-              class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-            >
-              <option value="Tous">Tous les métiers</option>
-              <option value="Plombier">Plombier</option>
-              <option value="Coiffeur">Coiffeur</option>
-              <option value="Restaurant">Restaurant</option>
-              <option value="Boulanger">Boulanger</option>
-              <option value="Couturier">Couturier</option>
-              <option value="Jardinier">Jardinier</option>
-              <option value="Électricien">Électricien</option>
-              <option value="Mécanicien">Mécanicien</option>
-            </select>
-          </div>
-          <button
-            id="searchBtn"
-            class="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700 transition-colors mt-6"
+    <!-- Main content wrapper -->
+    <main>
+      <!-- Hero Section -->
+      <section id="home" class="py-20 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h2
+            class="font-serif text-5xl md:text-6xl font-bold text-gray-800 mb-6"
           >
-            Rechercher
+            Trouvez les meilleurs
+            <span class="text-emerald-600">artisans</span> de votre quartier
+          </h2>
+          <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Plombiers, coiffeurs, restaurateurs... Découvrez des professionnels
+            de confiance recommandés par votre communauté.
+          </p>
+          <button
+            onclick="scrollToSection('providers')"
+            class="bg-emerald-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-emerald-700 transition-colors shadow-lg"
+          >
+            Découvrir les prestataires
           </button>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Liste des prestataires -->
-    <section id="providers" class="py-12 px-4">
-      <div class="max-w-6xl mx-auto">
-        <h3
-          class="font-serif text-3xl font-bold text-center mb-12 text-gray-800"
-        >
-          Prestataires disponibles
-        </h3>
-        <div
-          id="providerList"
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          <!-- Les prestataires seront injectés ici par JavaScript -->
+      <!-- Filtres -->
+      <section id="filters" class="py-8 px-4 bg-white/50">
+        <div class="max-w-6xl mx-auto">
+          <div class="flex flex-wrap gap-4 justify-center items-center">
+            <div class="flex flex-col">
+              <label class="text-sm font-medium text-gray-700 mb-2"
+                >Quartier</label
+              >
+              <select
+                id="zoneFilter"
+                class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              >
+                <option value="Tous">Tous les quartiers</option>
+                <option value="Centre-ville">Centre-ville</option>
+                <option value="Saint-Maurice">Saint-Maurice</option>
+                <option value="Bourgneuf">Bourgneuf</option>
+                <option value="Les Sables">Les Sables</option>
+                <option value="Château-Gaillard">Château-Gaillard</option>
+              </select>
+            </div>
+            <div class="flex flex-col">
+              <label class="text-sm font-medium text-gray-700 mb-2"
+                >Métier</label
+              >
+              <select
+                id="metierFilter"
+                class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              >
+                <option value="Tous">Tous les métiers</option>
+                <option value="Plombier">Plombier</option>
+                <option value="Coiffeur">Coiffeur</option>
+                <option value="Restaurant">Restaurant</option>
+                <option value="Boulanger">Boulanger</option>
+                <option value="Couturier">Couturier</option>
+                <option value="Jardinier">Jardinier</option>
+                <option value="Électricien">Électricien</option>
+                <option value="Mécanicien">Mécanicien</option>
+              </select>
+            </div>
+            <button
+              id="searchBtn"
+              class="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700 transition-colors mt-6"
+            >
+              Rechercher
+            </button>
+          </div>
         </div>
-        <div id="noResults" class="hidden text-center py-12">
-          <p class="text-gray-500 text-lg">
-            Aucun prestataire trouvé avec ces critères.
-          </p>
+      </section>
+
+      <!-- Liste des prestataires -->
+      <section id="providers" class="py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+          <h3
+            class="font-serif text-3xl font-bold text-center mb-12 text-gray-800"
+          >
+            Prestataires disponibles
+          </h3>
+          <div
+            id="providerList"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            <!-- Les prestataires seront injectés ici par JavaScript -->
+          </div>
+          <div id="noResults" class="hidden text-center py-12">
+            <p class="text-gray-500 text-lg">
+              Aucun prestataire trouvé avec ces critères.
+            </p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8 px-4 mt-12">
+    <footer class="bg-gray-800 text-white py-8 px-4">
       <div class="max-w-6xl mx-auto text-center">
         <p class="font-serif text-xl mb-4">Services de Proximité</p>
         <p class="text-gray-400">© 2024 - Tous droits réservés</p>
