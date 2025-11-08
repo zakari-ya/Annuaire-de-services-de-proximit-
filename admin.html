@@ -371,11 +371,25 @@
       }
 
       // Modifier un prestataire (fonction de base)
-      function editProvider(providerId) {
-        alert(
-          "Fonction de modification à développer selon les besoins spécifiques"
-        );
-      }
+   function editProvider(providerId) {
+            const oldProvider = providers.find(p => p.id === providerId);
+            const newJob = prompt(`Modifier le métier du prestataire ${oldProvider.name} :`, oldProvider.job);
+            const newZone = prompt(`Modifier le quartier du prestataire ${oldProvider.name} :`, oldProvider.zone);
+            const newDescription = prompt(`Modifier la description du prestataire ${oldProvider.name} :`, oldProvider.description);
+            if (newJob !== null && newJob !== oldProvider.job) {
+                oldProvider.job = newJob;
+            }
+            if (newZone !== null && newZone !== oldProvider.zone) {
+                oldProvider.zone = newZone;
+            }
+            if (newDescription !== null && newDescription !== oldProvider.description) {
+                oldProvider.description = newDescription;
+            }
+            saveProviders();
+            renderPendingProviders();
+            renderValidatedProviders();
+            showConfirmModal();
+        }
 
       // Afficher le modal de confirmation
       function showConfirmModal() {
