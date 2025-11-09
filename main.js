@@ -15,8 +15,12 @@ async function loadProvidersData() {
     const response = await fetch("services_marrakech.json");
     const servicesData = await response.json();
 
-    // Transformer les données du JSON en format compatible avec notre application
-    providers = servicesData.map((service) => ({
+    // Charger les données locales
+    const savedProviders = localStorage.getItem(PKEY);
+    const localProviders = savedProviders ? JSON.parse(savedProviders) : [];
+
+    // Transformer les données du JSON en format compatible
+    const jsonProviders = servicesData.map((service) => ({
       id: service.id,
       name: service.name,
       job: service.service_type,
@@ -28,12 +32,19 @@ async function loadProvidersData() {
       image: getServiceImage(service.service_type),
       rating: service.rating,
       reviews_count: service.reviews_count,
+      source: "json",
     }));
+
+    // Fusionner les données (JSON + locales), éviter les doublons
+    const jsonIds = new Set(jsonProviders.map((p) => p.id));
+    const uniqueLocalProviders = localProviders.filter(
+      (p) => !jsonIds.has(p.id)
+    );
+
+    providers = [...jsonProviders, ...uniqueLocalProviders];
 
     saveProviders();
     renderProviders();
-
-    // Mettre à jour les filtres
     updateFilters();
   } catch (error) {
     console.error("Erreur lors du chargement des données:", error);
