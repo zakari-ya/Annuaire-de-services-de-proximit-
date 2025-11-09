@@ -51,6 +51,7 @@ async function loadProvidersData() {
     // Charger depuis le localStorage si disponible
     initializeProviders();
     renderProviders();
+    updateFilters();
   }
 }
 
@@ -74,6 +75,20 @@ function getServiceImage(serviceType) {
       "https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&h=300&fit=crop",
     Médecins:
       "https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=300&h=300&fit=crop",
+    Plombier: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400",
+    Coiffeur: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400",
+    Restaurant:
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400",
+    Boulanger:
+      "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400",
+    Couturier:
+      "https://images.unsplash.com/photo-1594736797933-d0d69c3d15d3?w=400",
+    Jardinier:
+      "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=400",
+    Électricien:
+      "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=400",
+    Mécanicien:
+      "https://images.unsplash.com/photo-1581093458791-8a6a5d583c5e?w=400",
   };
 
   return (
@@ -86,11 +101,17 @@ function initializeProviders() {
   const savedProviders = localStorage.getItem(PKEY);
   if (savedProviders) {
     providers = JSON.parse(savedProviders);
+  } else {
+    providers = [];
   }
 }
 
 function saveProviders() {
-  localStorage.setItem(PKEY, JSON.stringify(providers));
+  // Sauvegarder uniquement les prestataires locaux
+  const localProviders = providers.filter(
+    (p) => p.source === "local" || !p.source
+  );
+  localStorage.setItem(PKEY, JSON.stringify(localProviders));
 }
 
 function setupEventListeners() {
@@ -102,12 +123,6 @@ function setupEventListeners() {
   if (searchBtn) searchBtn.addEventListener("click", filterProviders);
   if (zoneFilter) zoneFilter.addEventListener("change", filterProviders);
   if (metierFilter) metierFilter.addEventListener("change", filterProviders);
-
-  // Formulaire
-  const providerForm = document.getElementById("providerForm");
-  if (providerForm) {
-    providerForm.addEventListener("submit", handleFormSubmit);
-  }
 
   // Menu mobile
   const mobileMenuBtn = document.getElementById("mobile-menu-btn");
@@ -122,12 +137,13 @@ function updateFilters() {
 
   if (!zoneFilter || !metierFilter) return;
 
-  // Obtenir les zones uniques
-  const zones = [...new Set(providers.map((p) => p.zone))].filter(
+  // Obtenir les zones uniques des prestataires validés
+  const validatedProviders = providers.filter((p) => p.validated);
+  const zones = [...new Set(validatedProviders.map((p) => p.zone))].filter(
     (zone) => zone
   );
-  // Obtenir les métiers uniques
-  const metiers = [...new Set(providers.map((p) => p.job))].filter(
+  // Obtenir les métiers uniques des prestataires validés
+  const metiers = [...new Set(validatedProviders.map((p) => p.job))].filter(
     (job) => job
   );
 
@@ -155,9 +171,7 @@ function filterProviders() {
   const metierFilter = document.getElementById("metierFilter")?.value || "Tous";
 
   const filteredProviders = providers.filter((provider) => {
-    const matchesZone =
-      zoneFilter === "Tous" ||
-      provider.zone.toLowerCase().includes(zoneFilter.toLowerCase());
+    const matchesZone = zoneFilter === "Tous" || provider.zone === zoneFilter;
     const matchesMetier =
       metierFilter === "Tous" || provider.job === metierFilter;
     return matchesZone && matchesMetier && provider.validated;
@@ -268,34 +282,6 @@ function renderProviders(providersToRender = null) {
   }, 100);
 }
 
-function handleFormSubmit(e) {
-  e.preventDefault();
-
-  const formData = {
-    name: document.getElementById("providerName").value,
-    job: document.getElementById("providerJob").value,
-    zone: document.getElementById("providerZone").value,
-    phone: document.getElementById("providerPhone").value,
-    description: document.getElementById("providerDescription").value,
-    validated: false,
-    image: getServiceImage(document.getElementById("providerJob").value),
-    id: Date.now().toString(),
-  };
-
-  // Ajouter le prestataire
-  providers.push(formData);
-  saveProviders();
-
-  // Réinitialiser le formulaire
-  document.getElementById("providerForm").reset();
-
-  // Afficher le modal de succès
-  showSuccessModal();
-
-  // Mettre à jour les filtres
-  updateFilters();
-}
-
 function showSuccessModal() {
   const successModal = document.getElementById("successModal");
   if (successModal) {
@@ -330,7 +316,7 @@ function viewProviderDetails(providerId) {
       name: provider.name,
       job: provider.job,
       zone: provider.zone,
-      phone: provider.phone,
+      phone: provider.phone || "",
       description: provider.description,
       image: provider.image,
       rating: provider.rating || "",
@@ -352,6 +338,7 @@ function toggleMobileMenu() {
   if (mobileMenu) {
     mobileMenu.classList.toggle("hidden");
   } else {
+    // Fallback si le menu mobile n'existe pas
     alert(
       "Menu mobile - Fonctionnalité à développer selon les besoins spécifiques"
     );

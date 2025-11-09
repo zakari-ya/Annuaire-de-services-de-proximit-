@@ -1,5 +1,7 @@
 # Annuaire de Services de Proximité
 
+# [▶️](https://zakari-ya.github.io/Annuaire-de-services-de-proximit-/)
+
 Une plateforme locale permettant aux utilisateurs de consulter et d'ajouter des prestataires de services par quartier.
 
 ## Fonctionnalités du MVP
@@ -18,16 +20,20 @@ Une plateforme locale permettant aux utilisateurs de consulter et d'ajouter des 
 ## Utilisation
 
 ### Consultation des prestataires
+
 - Utilisez les filtres en haut de page pour affiner votre recherche
 - Les prestataires validés apparaissent en premier
 
 ### Ajout d'un prestataire
+
 - Remplissez le formulaire "Ajouter un prestataire"
 - Les nouveaux prestataires sont marqués "En attente de validation"
 - Un administrateur doit valider pour qu'ils apparaissent publiquement
 
 ### Mode administrateur (démonstration)
+
 Pour tester les fonctionnalités d'administration :
+
 1. Ouvrez la console du navigateur (F12)
 2. Exécutez `enableAdminMode()`
 3. Les boutons de validation/suppression apparaîtront

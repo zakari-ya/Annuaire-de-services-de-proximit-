@@ -452,6 +452,22 @@
             "https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&h=300&fit=crop",
           Médecins:
             "https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=300&h=300&fit=crop",
+          Plombier:
+            "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400",
+          Coiffeur:
+            "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400",
+          Restaurant:
+            "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400",
+          Boulanger:
+            "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400",
+          Couturier:
+            "https://images.unsplash.com/photo-1594736797933-d0d69c3d15d3?w=400",
+          Jardinier:
+            "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=400",
+          Électricien:
+            "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=400",
+          Mécanicien:
+            "https://images.unsplash.com/photo-1581093458791-8a6a5d583c5e?w=400",
         };
         return (
           imageMap[serviceType] ||
@@ -468,8 +484,7 @@
             zone: "Paris 15e",
             phone: "01 23 45 67 89",
             description: "Plombier expérimenté pour toutes vos réparations",
-            image:
-              "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400",
+            image: getServiceImage("Plombier"),
             validated: false,
             source: "local",
           },
@@ -499,13 +514,15 @@
         document.getElementById("jsonProviders").textContent = jsonProviders;
 
         // Animer les chiffres
-        anime({
-          targets:
-            "#totalProviders, #validatedProviders, #pendingProviders, #jsonProviders",
-          scale: [1.2, 1],
-          duration: 300,
-          easing: "easeOutQuad",
-        });
+        if (typeof anime !== "undefined") {
+          anime({
+            targets:
+              "#totalProviders, #validatedProviders, #pendingProviders, #jsonProviders",
+            scale: [1.2, 1],
+            duration: 300,
+            easing: "easeOutQuad",
+          });
+        }
       }
 
       // Afficher les prestataires en attente
@@ -753,13 +770,15 @@
       function showEditModal() {
         document.getElementById("editModal").classList.remove("hidden");
 
-        anime({
-          targets: "#editModal .bg-white",
-          scale: [0.8, 1],
-          opacity: [0, 1],
-          duration: 300,
-          easing: "easeOutQuad",
-        });
+        if (typeof anime !== "undefined") {
+          anime({
+            targets: "#editModal .bg-white",
+            scale: [0.8, 1],
+            opacity: [0, 1],
+            duration: 300,
+            easing: "easeOutQuad",
+          });
+        }
       }
 
       // Fermer le modal d'édition
@@ -774,13 +793,15 @@
       function showConfirmModal() {
         document.getElementById("confirmModal").classList.remove("hidden");
 
-        anime({
-          targets: "#confirmModal .bg-white",
-          scale: [0.8, 1],
-          opacity: [0, 1],
-          duration: 300,
-          easing: "easeOutQuad",
-        });
+        if (typeof anime !== "undefined") {
+          anime({
+            targets: "#confirmModal .bg-white",
+            scale: [0.8, 1],
+            opacity: [0, 1],
+            duration: 300,
+            easing: "easeOutQuad",
+          });
+        }
       }
 
       // Fermer le modal de confirmation
@@ -840,14 +861,16 @@
         loadProviders();
 
         // Animation d'entrée
-        anime({
-          targets: ".bg-white",
-          translateY: [30, 0],
-          opacity: [0, 1],
-          duration: 600,
-          delay: anime.stagger(100),
-          easing: "easeOutQuad",
-        });
+        if (typeof anime !== "undefined") {
+          anime({
+            targets: ".bg-white",
+            translateY: [30, 0],
+            opacity: [0, 1],
+            duration: 600,
+            delay: anime.stagger(100),
+            easing: "easeOutQuad",
+          });
+        }
       });
     </script>
   </body>
