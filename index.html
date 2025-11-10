@@ -1,265 +1,136 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Services de Proximité - Annuaire local</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
-    <link
-      href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      .font-serif {
-        font-family: "Playfair Display", serif;
-      }
 
-      .font-sans {
-        font-family: "Inter", sans-serif;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services de Proximité - Annuaire local</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
 
-      .gradient-bg {
-        background: linear-gradient(135deg, #f8f9f0 0%, #e8ebe3 100%);
-      }
+  <link href="index.css" rel="stylesheet" />
+</head>
 
-      .card-hover {
-        transition: all 0.3s ease;
-      }
-
-      .card-hover:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      }
-
-      .filter-active {
-        background: #4a5568;
-        color: white;
-      }
-
-      .provider-card {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      .provider-card.visible {
-        opacity: 1;
-        transform: translateY(0);
-        transition: all 0.5s ease;
-      }
-
-      /* Add these styles to make the footer stick to the bottom */
-      body {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-      }
-
-      main {
-        flex: 1;
-      }
-
-      footer {
-        margin-top: auto;
-      }
-    </style>
-  </head>
-
-  <body class="gradient-bg min-h-screen font-sans">
-    <!-- Navigation -->
-    <nav class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-          <div class="flex items-center">
-            <h1 class="font-serif text-2xl font-bold text-gray-800">
-              Services de Proximité
-            </h1>
-          </div>
-          <div class="hidden md:flex space-x-8">
-            <a
-              href="#home"
-              class="text-gray-700 hover:text-gray-900 font-medium transition-colors"
-              >Accueil</a
-            >
-            <a
-              href="#providers"
-              class="text-gray-700 hover:text-gray-900 font-medium transition-colors"
-              >Prestataires</a
-            >
-            <a
-              href="ajouter.html"
-              class="text-gray-700 hover:text-gray-900 font-medium transition-colors"
-              >Ajouter</a
-            >
-            <a
-              href="admin.html"
-              class="text-gray-700 hover:text-gray-900 font-medium transition-colors"
-              >Admin</a
-            >
-          </div>
-          <button id="mobile-menu-btn" class="md:hidden p-2">
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              ></path>
-            </svg>
-          </button>
+<body class="gradient-bg font-sans" style="font-family: 'Inter', sans-serif;">
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-content">
+        <div class="navbar-brand">
+          <h1>Services de Proximité</h1>
         </div>
-      </div>
-    </nav>
-
-    <!-- Main content wrapper -->
-    <main>
-      <!-- Hero Section -->
-      <section id="home" class="py-20 px-4">
-        <div class="max-w-4xl mx-auto text-center">
-          <h2
-            class="font-serif text-5xl md:text-6xl font-bold text-gray-800 mb-6"
-          >
-            Trouvez les meilleurs
-            <span class="text-emerald-600">artisans</span> de votre quartier
-          </h2>
-          <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Plombiers, coiffeurs, restaurateurs... Découvrez des professionnels
-            de confiance recommandés par votre communauté.
-          </p>
-          <button
-            onclick="scrollToSection('providers')"
-            class="bg-emerald-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-emerald-700 transition-colors shadow-lg"
-          >
-            Découvrir les prestataires
-          </button>
+        <div class="navbar-menu">
+          <a href="#home" class="navbar-link">Accueil</a>
+          <a href="#providers" class="navbar-link">Prestataires</a>
+          <a href="ajouter.html" class="navbar-link">Ajouter</a>
+          <a href="admin.html" class="navbar-link">Admin</a>
         </div>
-      </section>
-
-      <!-- Filtres -->
-      <section id="filters" class="py-8 px-4 bg-white/50">
-        <div class="max-w-6xl mx-auto">
-          <div class="flex flex-wrap gap-4 justify-center items-center">
-            <div class="flex flex-col">
-              <label class="text-sm font-medium text-gray-700 mb-2"
-                >Quartier</label
-              >
-              <select
-                id="zoneFilter"
-                class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-              >
-                <option value="Tous">Tous les quartiers</option>
-                <option value="Centre-ville">Centre-ville</option>
-                <option value="Saint-Maurice">Saint-Maurice</option>
-                <option value="Bourgneuf">Bourgneuf</option>
-                <option value="Les Sables">Les Sables</option>
-                <option value="Château-Gaillard">Château-Gaillard</option>
-              </select>
-            </div>
-            <div class="flex flex-col">
-              <label class="text-sm font-medium text-gray-700 mb-2"
-                >Métier</label
-              >
-              <select
-                id="metierFilter"
-                class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-              >
-                <option value="Tous">Tous les métiers</option>
-                <option value="Plombier">Plombier</option>
-                <option value="Coiffeur">Coiffeur</option>
-                <option value="Restaurant">Restaurant</option>
-                <option value="Boulanger">Boulanger</option>
-                <option value="Couturier">Couturier</option>
-                <option value="Jardinier">Jardinier</option>
-                <option value="Électricien">Électricien</option>
-                <option value="Mécanicien">Mécanicien</option>
-              </select>
-            </div>
-            <button
-              id="searchBtn"
-              class="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700 transition-colors mt-6"
-            >
-              Rechercher
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- Liste des prestataires -->
-      <section id="providers" class="py-12 px-4">
-        <div class="max-w-6xl mx-auto">
-          <h3
-            class="font-serif text-3xl font-bold text-center mb-12 text-gray-800"
-          >
-            Prestataires disponibles
-          </h3>
-          <div
-            id="providerList"
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            <!-- Les prestataires seront injectés ici par JavaScript -->
-          </div>
-          <div id="noResults" class="hidden text-center py-12">
-            <p class="text-gray-500 text-lg">
-              Aucun prestataire trouvé avec ces critères.
-            </p>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8 px-4">
-      <div class="max-w-6xl mx-auto text-center">
-        <p class="font-serif text-xl mb-4">Services de Proximité</p>
-        <p class="text-gray-400">© 2025 - Tous droits réservés</p>
-      </div>
-    </footer>
-
-    <!-- Modal de succès -->
-    <div
-      id="successModal"
-      class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-    >
-      <div class="bg-white rounded-2xl p-8 max-w-md mx-4 text-center">
-        <div class="text-emerald-600 mb-4">
-          <svg
-            class="w-16 h-16 mx-auto"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M5 13l4 4L19 7"
-            ></path>
+        <!-- Mobile menu button -->
+        <button id="mobile-menu-btn" class="mobile-menu-btn">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
-        </div>
-        <h3 class="font-serif text-2xl font-bold mb-4">Merci !</h3>
-        <p class="text-gray-600 mb-6">
-          Votre prestataire a été ajouté et sera bientôt visible après
-          modération.
-        </p>
-        <button
-          onclick="closeModal()"
-          class="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700 transition-colors"
-        >
-          Compris
         </button>
+
+        <!-- Mobile menu (hidden by default) -->
+        <div id="mobile-menu" class="mobile-menu hidden">
+          <a href="#home" class="mobile-menu-link">Accueil</a>
+          <a href="#providers" class="mobile-menu-link">Prestataires</a>
+          <a href="ajouter.html" class="mobile-menu-link">Ajouter</a>
+          <a href="admin.html" class="mobile-menu-link">Admin</a>
+          
+        </div>
       </div>
     </div>
+  </nav>
 
-    <script src="main.js"></script>
-  </body>
+  <!-- Main content wrapper -->
+  <main>
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+      <div class="hero-container">
+        <h2 class="hero-title">
+          Trouvez les meilleurs
+          <span class="hero-highlight">artisans</span> de votre quartier
+        </h2>
+        <p class="hero-description">
+          Plombiers, coiffeurs, restaurateurs... Découvrez des professionnels
+          de confiance recommandés par votre communauté.
+        </p>
+        <button onclick="scrollToSection('providers')" class="hero-button">
+          Découvrir les prestataires
+        </button>
+      </div>
+    </section>
+
+    <!-- Filtres -->
+    <section id="filters" class="filters-section">
+      <div class="filters-container">
+        <div class="filters-wrapper">
+          <div class="filter-group">
+            <label class="filter-label">Quartier</label>
+            <select id="zoneFilter" class="filter-select">
+              <option value="Tous">Tous les quartiers</option>
+              <option value="Centre-ville">Centre-ville</option>
+              <option value="Saint-Maurice">Saint-Maurice</option>
+              <option value="Bourgneuf">Bourgneuf</option>
+              <option value="Les Sables">Les Sables</option>
+              <option value="Château-Gaillard">Château-Gaillard</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">Métier</label>
+            <select id="metierFilter" class="filter-select">
+              <option value="Tous">Tous les métiers</option>
+              <option value="Plombier">Plombier</option>
+              <option value="Coiffeur">Coiffeur</option>
+              <option value="Restaurant">Restaurant</option>
+              <option value="Boulanger">Boulanger</option>
+              <option value="Couturier">Couturier</option>
+              <option value="Jardinier">Jardinier</option>
+              <option value="Électricien">Électricien</option>
+              <option value="Mécanicien">Mécanicien</option>
+            </select>
+          </div>
+          <button id="searchBtn" class="search-button">
+            Rechercher
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Liste des prestataires -->
+    <section id="providers" class="providers-section">
+      <div class="providers-container">
+        <h3 class="providers-title">
+          Prestataires disponibles
+        </h3>
+        <div id="providerList" class="providers-grid">
+          <!-- Les prestataires seront injectés ici par JavaScript -->
+        </div>
+        <div id="noResults" class="no-results">
+          <p class="no-results-text">
+            Aucun prestataire trouvé avec ces critères.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <p class="footer-title">Services de Proximité</p>
+      <p class="footer-copyright">© 2025 - Tous droits réservés</p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+
 </html>

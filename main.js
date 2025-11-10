@@ -7,7 +7,18 @@ document.addEventListener("DOMContentLoaded", function () {
   loadProvidersData();
   setupEventListeners();
   animateOnScroll();
+  checkAndShowSuccessModal();
 });
+
+function checkAndShowSuccessModal() {
+  // Vérifier si l'utilisateur vient de la page d'ajout
+  const showModal = sessionStorage.getItem("showSuccessModal");
+  if (showModal === "true") {
+    showSuccessModal();
+    // Supprimer le flag après l'affichage
+    sessionStorage.removeItem("showSuccessModal");
+  }
+}
 
 async function loadProvidersData() {
   try {
@@ -200,51 +211,37 @@ function renderProviders(providersToRender = null) {
   providerList.innerHTML = providersList
     .map(
       (provider) => `
-        <div class="provider-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover transform transition-transform duration-300 hover:scale-105">
-            <div class="aspect-w-1 aspect-h-1">
-                <img src="${provider.image}" alt="${
-        provider.name
-      }" class="w-full h-48 object-cover">
-            </div>
-            <div class="p-6">
-                <div class="flex items-center justify-between mb-2">
-                    <h4 class="font-serif text-xl font-semibold text-gray-800">${
-                      provider.name
-                    }</h4>
-                    <span class="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-sm font-medium">
-                        ${provider.job}
-                    </span>
+        <div class="provider-card provider-card-wrapper">
+            <img src="${provider.image}" alt="${provider.name}" class="provider-image">
+            <div class="provider-content">
+                <div class="provider-header">
+                    <h4 class="provider-name">${provider.name}</h4>
+                    <span class="provider-job-badge">${provider.job}</span>
                 </div>
-                <div class="flex items-center text-gray-600 mb-3">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="provider-zone">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                     </svg>
                     ${provider.zone}
                 </div>
-                <p class="text-gray-600 text-sm mb-4 line-clamp-3">${
-                  provider.description
-                }</p>
+                <p class="provider-description">${provider.description}</p>
                 ${
                   provider.rating
                     ? `
-                <div class="flex items-center mb-3">
-                    <span class="text-yellow-500 mr-2">⭐ ${
-                      provider.rating
-                    }</span>
-                    <span class="text-gray-500 text-sm">${
-                      provider.reviews_count || ""
-                    }</span>
+                <div class="provider-rating">
+                    <span class="provider-rating-star">⭐ ${provider.rating}</span>
+                    <span class="provider-rating-count">${provider.reviews_count || ""}</span>
                 </div>
                 `
                     : ""
                 }
-                <div class="flex items-center justify-between">
+                <div class="provider-footer">
                     ${
                       provider.phone
                         ? `
-                    <a href="tel:${provider.phone}" class="flex items-center text-emerald-600 hover:text-emerald-700 font-medium transition-colors duration-200">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <a href="tel:${provider.phone}" class="provider-phone-link">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                         </svg>
                         ${provider.phone}
@@ -252,9 +249,7 @@ function renderProviders(providersToRender = null) {
                     `
                         : "<div></div>"
                     }
-                    <button onclick="viewProviderDetails('${
-                      provider.id
-                    }')" class="text-gray-500 hover:text-gray-700 font-medium transition-colors duration-200">
+                    <button onclick="viewProviderDetails('${provider.id}')" class="provider-details-btn">
                         Voir détails
                     </button>
                 </div>
@@ -344,6 +339,34 @@ function toggleMobileMenu() {
     );
   }
 }
+
+// Close mobile menu when clicking on any link
+document.addEventListener('DOMContentLoaded', function() {
+  const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+  const mobileMenu = document.getElementById('mobile-menu');
+  
+  mobileMenuLinks.forEach(link => {
+    link.addEventListener('click', function() {
+      // Close the mobile menu
+      if (mobileMenu) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+  });
+  
+  // Optional: Close menu when clicking outside
+  document.addEventListener('click', function(event) {
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    
+    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+      if (!mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+        mobileMenu.classList.add('hidden');
+      }
+    }
+  });
+});
+
 
 function animateOnScroll() {
   // Animation simple sans dépendance à anime.js
