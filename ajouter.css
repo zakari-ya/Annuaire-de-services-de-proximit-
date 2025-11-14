@@ -357,3 +357,127 @@ footer {
 .modal-button:hover {
     background-color: #047857;
 }
+
+
+
+
+:root {
+    --primary-green: #10b981;
+    --dark-green: #059669;
+    --light-green: #a7f3d0;
+    --text-color: #ffffff;
+    --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+#toast {
+    visibility: hidden;
+    max-width: 50px;
+    height: 50px;
+    margin: auto;
+    background-color: var(--primary-green);
+    color: var(--text-color);
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    right: 0;
+    bottom: 30px;
+    font-size: 17px;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+#toast::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-green), var(--light-green));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 3s linear;
+}
+#toast #img {
+    width: 50px;
+    height: 50px;
+    float: left;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    box-sizing: border-box;
+    background-color: var(--dark-green);
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px 0 0 12px;
+}
+#toast #desc {
+    color: var(--text-color);
+    padding: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: 500;
+    letter-spacing: 0.25px;
+}
+#toast.show {
+    visibility: visible;
+    animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 4s, fadeout 0.5s 4.5s;
+}
+#toast.show::before {
+    transform: scaleX(1);
+}
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+@keyframes expand {
+    from {
+        min-width: 50px;
+    }
+    to {
+        min-width: 350px;
+    }
+}
+@keyframes stay {
+    from {
+        min-width: 350px;
+    }
+    to {
+        min-width: 350px;
+    }
+}
+@keyframes shrink {
+    from {
+        min-width: 350px;
+    }
+    to {
+        min-width: 50px;
+    }
+}
+@keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        bottom: 60px;
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+.toast-icon {
+    width: 20px;
+    height: 20px;
+}
