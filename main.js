@@ -81,7 +81,7 @@ function getServiceImage(serviceType) {
     "Cours de langues":
       "https://laacademia.co.uk/wp-content/uploads/2021/06/La-Academia-WC-21.6.21-Supplementary-Education-1.jpg",
     "Administration - Service public":
-      "https://images.unsplash.com/photo-1551135049-8a33b42738b4?w=300&h=300&fit=crop",
+      "https://www.obea.fr/wp-content/uploads/2018/03/expertise-service-public-header-1440x960.jpg",
     "Création d'entreprise":
       "https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&h=300&fit=crop",
     Médecins:
