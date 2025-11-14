@@ -12,242 +12,368 @@
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
     rel="stylesheet" />
   <link href="admin.css" rel="stylesheet" />
-
+  <style>
+    .password-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #f8f9f0 0%, #e8ebe3 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    
+    .password-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+    
+    .password-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 0.5rem;
+      margin: 1rem 0;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    .password-input:focus {
+      outline: none;
+      border-color: #059669;
+    }
+    
+    .password-error {
+      color: #dc2626;
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      display: none;
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+  </style>
 </head>
 
 <body class="gradient-bg min-h-screen font-sans">
 
-
-  <!-- Navigation -->
-  <nav class="nav-container">
-    <div class="nav-inner">
-      <div class="nav-flex">
-        <div class="nav-items">
-          <a href="index.html" class="font-serif text-2xl font-bold text-gray-800">Services de Proximité</a>
-        </div>
-        <div class="nav-links">
-          <a href="index.html" class="nav-link">Accueil</a>
-          <a href="index.html#providers" class="nav-link">Prestataires</a>
-          <a href="ajouter.html" class="nav-link">Ajouter</a>
-          <a href="admin.html" class="nav-link-active">Admin</a>
-        </div>
-
-        <!-- Mobile menu button -->
-        <button id="mobile-menu-btn" class="mobile-menu-btn">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
-
-        <!-- Mobile menu (hidden by default) -->
-        <div id="mobile-menu" class="mobile-menu hidden">
-          <a href="index.html" class="mobile-menu-link">Accueil</a>
-          <a href="index.html#providers" class="mobile-menu-link">Prestataires</a>
-          <a href="ajouter.html" class="mobile-menu-link">Ajouter</a>
-          <a href="admin.html" class="mobile-menu-link">Admin</a>
-        </div>
-
-      </div>
-    </div>
-  </nav>
-
-  <!-- Contenu principal -->
-  <main class="main-container">
-    <div class="main-inner">
-      <div class="text-center">
-        <h1 class="heading-primary">
-          Administration
-        </h1>
-        <p class="text-xl">
-          Modérez les prestataires en attente de validation
-        </p>
-      </div>
-
-      <!-- Dashboard avec graphique -->
-      <section class="mb-12">
-        <h2 class="section-heading">
-          Tableau de bord
-        </h2>
-        <div class="dashboard-grid">
-          <!-- Graphique circulaire -->
-          <div class="dashboard-card">
-            <h3 class="dashboard-title">Répartition des prestataires</h3>
-            <div class="chart-container">
-              <canvas id="providersChart"></canvas>
-            </div>
-          </div>
-          
-          <!-- Métriques détaillées -->
-          <div class="dashboard-card">
-            <h3 class="dashboard-title">Statistiques détaillées</h3>
-            <div class="metrics-grid">
-              <div class="metric-item">
-                <div class="metric-color bg-blue-500"></div>
-                <span class="metric-label">Total prestataires</span>
-                <span class="metric-value" id="totalProviders">0</span>
-              </div>
-              <div class="metric-item">
-                <div class="metric-color bg-green-500"></div>
-                <span class="metric-label">Validés</span>
-                <span class="metric-value" id="validatedProviders">0</span>
-              </div>
-              <div class="metric-item">
-                <div class="metric-color bg-orange-500"></div>
-                <span class="metric-label">En attente</span>
-                <span class="metric-value" id="pendingProviders">0</span>
-              </div>
-              <div class="metric-item">
-                <div class="metric-color bg-purple-500"></div>
-                <span class="metric-label">Données référence</span>
-                <span class="metric-value" id="jsonProviders">0</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section des prestataires en attente -->
-      <section class="mb-12">
-        <h2 class="section-heading">
-          Prestataires en attente de validation
-        </h2>
-        <div id="pendingList" class="space-y-6">
-          <!-- Les prestataires en attente seront injectés ici -->
-        </div>
-        <div id="noPending" class="hidden text-center py-12">
-          <div class="text-gray-400 mb-4">
-            <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-          </div>
-          <p class="text-gray-500 text-lg">
-            Aucun prestataire en attente de validation
-          </p>
-        </div>
-      </section>
-
-      <!-- Section des prestataires validés -->
-      <section>
-        <h2 class="section-heading">
-          Prestataires validés
-        </h2>
-        <div class="validated-grid" id="validatedList">
-          <!-- Les prestataires validés seront injectés ici -->
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="footer-container">
-    <div class="footer-inner">
-      <p class="footer-title">Services de Proximité</p>
-      <p class="footer-text">© 2025 - Tous droits réservés</p>
-    </div>
-  </footer>
-
-  <!-- Modal de confirmation -->
-  <div id="confirmModal" class="modal-overlay hidden">
-    <div class="modal-container">
-      <div class="modal-icon">
-        <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+  <!-- Password Protection Overlay -->
+  <div id="passwordOverlay" class="password-overlay">
+    <div class="password-container">
+      <div class="mb-6">
+        <svg class="w-16 h-16 mx-auto text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
         </svg>
       </div>
-      <h3 class="modal-title">
-        Modifications enregistrées
-      </h3>
-      <p class="modal-text">
-        Les informations du prestataire ont été mises à jour avec succès.
-      </p>
-      <button onclick="closeConfirmModal()" class="modal-btn">
-        Compris
+      <h2 class="text-2xl font-bold text-gray-800 mb-2 font-serif">Accès Administrateur</h2>
+      <p class="text-gray-600 mb-4">Veuillez entrer le mot de passe pour accéder à l'administration</p>
+      
+      <input type="password" id="passwordInput" class="password-input" placeholder="Mot de passe" />
+      <div id="passwordError" class="password-error">
+        Mot de passe incorrect. Veuillez réessayer.
+      </div>
+      
+      <button onclick="checkPassword()" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-200">
+        Se connecter
       </button>
+      
+      <p class="text-sm text-gray-500 mt-4">
+        Appuyez sur Entrée pour valider
+      </p>
     </div>
   </div>
 
-  <!-- Modal d'édition simplifié -->
-  <div id="editModal" class="modal-overlay hidden">
-    <div class="edit-modal-container">
-      <div class="edit-modal-header">
-        <h3 class="edit-modal-title">
-          Modifier le prestataire
-        </h3>
-        <button onclick="closeEditModal()" class="edit-modal-close">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-      </div>
+  <!-- Main Content (Hidden until password is correct) -->
+  <div id="mainContent" class="hidden">
 
-      <form id="editForm" class="edit-form">
-        <input type="hidden" id="editId" />
-        <input type="hidden" id="editSource" />
+    <!-- Navigation -->
+    <nav class="nav-container">
+      <div class="nav-inner">
+        <div class="nav-flex">
+          <div class="nav-items">
+            <a href="index.html" class="font-serif text-2xl font-bold text-gray-800">Services de Proximité</a>
+          </div>
+          <div class="nav-links">
+            <a href="index.html" class="nav-link">Accueil</a>
+            <a href="index.html#providers" class="nav-link">Prestataires</a>
+            <a href="ajouter.html" class="nav-link">Ajouter</a>
+            <a href="admin.html" class="nav-link-active">Admin</a>
+          </div>
 
-        <div class="form-group">
-          <label for="editName" class="form-label">
-            Nom du prestataire
-          </label>
-          <input type="text" id="editName" class="form-input" required />
-        </div>
-
-        <div class="form-group">
-          <label for="editJob" class="form-label">
-            Métier
-          </label>
-          <input type="text" id="editJob" class="form-input" required />
-        </div>
-
-        <div class="form-group">
-          <label for="editZone" class="form-label">
-            Zone d'intervention
-          </label>
-          <input type="text" id="editZone" class="form-input" required />
-        </div>
-
-        <div class="form-group">
-          <label for="editPhone" class="form-label">
-            Téléphone
-          </label>
-          <input type="tel" id="editPhone" class="form-input" required />
-        </div>
-
-        <div class="form-group">
-          <label for="editDescription" class="form-label">
-            Description
-          </label>
-          <textarea id="editDescription" rows="4" class="form-textarea" required></textarea>
-        </div>
-
-        <div id="jsonWarning" class="warning-box">
-          <div class="warning-content">
-            <svg class="warning-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          <!-- Mobile menu button -->
+          <button id="mobile-menu-btn" class="mobile-menu-btn">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
-            <p class="warning-text">
-              Ce prestataire provient des données de référence. Les
-              modifications créeront une copie locale.
+          </button>
+
+          <!-- Mobile menu (hidden by default) -->
+          <div id="mobile-menu" class="mobile-menu hidden">
+            <a href="index.html" class="mobile-menu-link">Accueil</a>
+            <a href="index.html#providers" class="mobile-menu-link">Prestataires</a>
+            <a href="ajouter.html" class="mobile-menu-link">Ajouter</a>
+            <a href="admin.html" class="mobile-menu-link">Admin</a>
+          </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <main class="main-container">
+      <div class="main-inner">
+        <div class="text-center">
+          <h1 class="heading-primary">
+            Administration
+          </h1>
+          <p class="text-xl">
+            Modérez les prestataires en attente de validation
+          </p>
+        </div>
+
+        <!-- Dashboard avec graphique -->
+        <section class="mb-12">
+          <h2 class="section-heading">
+            Tableau de bord
+          </h2>
+          <div class="dashboard-grid">
+            <!-- Graphique circulaire -->
+            <div class="dashboard-card">
+              <h3 class="dashboard-title">Répartition des prestataires</h3>
+              <div class="chart-container">
+                <canvas id="providersChart"></canvas>
+              </div>
+            </div>
+            
+            <!-- Métriques détaillées -->
+            <div class="dashboard-card">
+              <h3 class="dashboard-title">Statistiques détaillées</h3>
+              <div class="metrics-grid">
+                <div class="metric-item">
+                  <div class="metric-color bg-blue-500"></div>
+                  <span class="metric-label">Total prestataires</span>
+                  <span class="metric-value" id="totalProviders">0</span>
+                </div>
+                <div class="metric-item">
+                  <div class="metric-color bg-green-500"></div>
+                  <span class="metric-label">Validés</span>
+                  <span class="metric-value" id="validatedProviders">0</span>
+                </div>
+                <div class="metric-item">
+                  <div class="metric-color bg-orange-500"></div>
+                  <span class="metric-label">En attente</span>
+                  <span class="metric-value" id="pendingProviders">0</span>
+                </div>
+                <div class="metric-item">
+                  <div class="metric-color bg-purple-500"></div>
+                  <span class="metric-label">Données référence</span>
+                  <span class="metric-value" id="jsonProviders">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section des prestataires en attente -->
+        <section class="mb-12">
+          <h2 class="section-heading">
+            Prestataires en attente de validation
+          </h2>
+          <div id="pendingList" class="space-y-6">
+            <!-- Les prestataires en attente seront injectés ici -->
+          </div>
+          <div id="noPending" class="hidden text-center py-12">
+            <div class="text-gray-400 mb-4">
+              <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <p class="text-gray-500 text-lg">
+              Aucun prestataire en attente de validation
             </p>
           </div>
-        </div>
+        </section>
 
-        <div class="form-actions">
-          <button type="button" onclick="closeEditModal()" class="btn-cancel">
-            Annuler
-          </button>
-          <button type="submit" class="btn-save">
-            Enregistrer
-          </button>
+        <!-- Section des prestataires validés -->
+        <section>
+          <h2 class="section-heading">
+            Prestataires validés
+          </h2>
+          <div class="validated-grid" id="validatedList">
+            <!-- Les prestataires validés seront injectés ici -->
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-container">
+      <div class="footer-inner">
+        <p class="footer-title">Services de Proximité</p>
+        <p class="footer-text">© 2025 - Tous droits réservés</p>
+      </div>
+    </footer>
+
+    <!-- Modal de confirmation -->
+    <div id="confirmModal" class="modal-overlay hidden">
+      <div class="modal-container">
+        <div class="modal-icon">
+          <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
         </div>
-      </form>
+        <h3 class="modal-title">
+          Modifications enregistrées
+        </h3>
+        <p class="modal-text">
+          Les informations du prestataire ont été mises à jour avec succès.
+        </p>
+        <button onclick="closeConfirmModal()" class="modal-btn">
+          Compris
+        </button>
+      </div>
     </div>
-  </div>
 
+    <!-- Modal d'édition simplifié -->
+    <div id="editModal" class="modal-overlay hidden">
+      <div class="edit-modal-container">
+        <div class="edit-modal-header">
+          <h3 class="edit-modal-title">
+            Modifier le prestataire
+          </h3>
+          <button onclick="closeEditModal()" class="edit-modal-close">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <form id="editForm" class="edit-form">
+          <input type="hidden" id="editId" />
+          <input type="hidden" id="editSource" />
+
+          <div class="form-group">
+            <label for="editName" class="form-label">
+              Nom du prestataire
+            </label>
+            <input type="text" id="editName" class="form-input" required />
+          </div>
+
+          <div class="form-group">
+            <label for="editJob" class="form-label">
+              Métier
+            </label>
+            <input type="text" id="editJob" class="form-input" required />
+          </div>
+
+          <div class="form-group">
+            <label for="editZone" class="form-label">
+              Zone d'intervention
+            </label>
+            <input type="text" id="editZone" class="form-input" required />
+          </div>
+
+          <div class="form-group">
+            <label for="editPhone" class="form-label">
+              Téléphone
+            </label>
+            <input type="tel" id="editPhone" class="form-input" required />
+          </div>
+
+          <div class="form-group">
+            <label for="editDescription" class="form-label">
+              Description
+            </label>
+            <textarea id="editDescription" rows="4" class="form-textarea" required></textarea>
+          </div>
+
+          <div id="jsonWarning" class="warning-box">
+            <div class="warning-content">
+              <svg class="warning-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <p class="warning-text">
+                Ce prestataire provient des données de référence. Les
+                modifications créeront une copie locale.
+              </p>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" onclick="closeEditModal()" class="btn-cancel">
+              Annuler
+            </button>
+            <button type="submit" class="btn-save">
+              Enregistrer
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div> <!-- End of mainContent -->
 
   <script src="admin.js"></script>
+  <script>
+    // Password protection logic
+    const CORRECT_PASSWORD = "admin123";
+    
+    function checkPassword() {
+      const passwordInput = document.getElementById('passwordInput');
+      const passwordError = document.getElementById('passwordError');
+      const passwordOverlay = document.getElementById('passwordOverlay');
+      const mainContent = document.getElementById('mainContent');
+      
+      if (passwordInput.value === CORRECT_PASSWORD) {
+        passwordOverlay.classList.add('hidden');
+        mainContent.classList.remove('hidden');
+        
+        // Trigger any initialization that might be needed
+        if (typeof loadProviders === 'function') {
+          loadProviders();
+        }
+      } else {
+        passwordError.style.display = 'block';
+        passwordInput.value = '';
+        passwordInput.focus();
+        
+        // Shake animation for wrong password
+        if (typeof anime !== 'undefined') {
+          anime({
+            targets: passwordInput,
+            translateX: [0, -10, 10, -10, 10, 0],
+            duration: 400,
+            easing: 'easeInOutSine'
+          });
+        }
+      }
+    }
+    
+    // Allow pressing Enter to submit password
+    document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        checkPassword();
+      }
+    });
+    
+    // Focus on password input when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('passwordInput').focus();
+    });
+  </script>
 </body>
 
 </html>
