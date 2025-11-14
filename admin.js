@@ -1,6 +1,6 @@
-// Your JavaScript code remains exactly the same
 let providers = [];
 let editingProviderId = null;
+let providersChart = null;
 
 // Charger les prestataires
 function loadProviders() {
@@ -42,7 +42,7 @@ function loadProviders() {
 
       providers = [...jsonProviders, ...uniqueLocalProviders];
 
-      updateStats();
+      updateDashboard(); // Mettre à jour le dashboard seulement
       renderPendingProviders();
       renderValidatedProviders();
     })
@@ -54,7 +54,7 @@ function loadProviders() {
         providers = getDefaultProviders();
       }
       saveProviders();
-      updateStats();
+      updateDashboard(); // Mettre à jour le dashboard seulement
       renderPendingProviders();
       renderValidatedProviders();
     });
@@ -125,13 +125,14 @@ function saveProviders() {
   localStorage.setItem("providers", JSON.stringify(localProviders));
 }
 
-// Mettre à jour les statistiques
-function updateStats() {
+// Mettre à jour le dashboard
+function updateDashboard() {
   const total = providers.length;
   const validated = providers.filter((p) => p.validated).length;
   const pending = providers.filter((p) => !p.validated).length;
   const jsonProviders = providers.filter((p) => p.source === "json").length;
 
+  // Mettre à jour les métriques du dashboard
   document.getElementById("totalProviders").textContent = total;
   document.getElementById("validatedProviders").textContent = validated;
   document.getElementById("pendingProviders").textContent = pending;
@@ -147,6 +148,81 @@ function updateStats() {
       easing: "easeOutQuad",
     });
   }
+
+  // Mettre à jour le graphique circulaire
+  updatePieChart(jsonProviders, validated - jsonProviders, pending);
+}
+
+// Function to create/update pie chart
+function updatePieChart(jsonCount, localCount, pendingCount) {
+  const ctx = document.getElementById('providersChart').getContext('2d');
+  
+  // Destroy existing chart if it exists
+  if (providersChart) {
+    providersChart.destroy();
+  }
+
+  providersChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Données référence', 'Locaux validés', 'En attente'],
+      datasets: [{
+        data: [jsonCount, localCount, pendingCount],
+        backgroundColor: [
+          '#3b82f6', // blue-500
+          '#10b981', // green-500
+          '#f59e0b'  // orange-500
+        ],
+        borderColor: [
+          '#2563eb', // blue-600
+          '#059669', // green-600
+          '#d97706'  // orange-600
+        ],
+        borderWidth: 2,
+        hoverOffset: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            padding: 20,
+            usePointStyle: true,
+            font: {
+              family: "'Inter', sans-serif",
+              size: 12
+            }
+          }
+        },
+        tooltip: {
+          backgroundColor: 'rgba(255, 255, 255, 0.95)',
+          titleColor: '#1f2937',
+          bodyColor: '#4b5563',
+          borderColor: '#e5e7eb',
+          borderWidth: 1,
+          cornerRadius: 8,
+          displayColors: true,
+          callbacks: {
+            label: function(context) {
+              const label = context.label || '';
+              const value = context.parsed;
+              const total = context.dataset.data.reduce((a, b) => a + b, 0);
+              const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
+              return `${label}: ${value} (${percentage}%)`;
+            }
+          }
+        }
+      },
+      cutout: '60%',
+      animation: {
+        animateScale: true,
+        animateRotate: true
+      }
+    }
+  });
 }
 
 // Afficher les prestataires en attente
@@ -327,7 +403,7 @@ function validateProvider(providerId) {
     if (provider.source === "local" || !provider.source) {
       saveProviders();
     }
-    updateStats();
+    updateDashboard(); // Mettre à jour le dashboard seulement
     renderPendingProviders();
     renderValidatedProviders();
     showConfirmModal();
@@ -349,7 +425,7 @@ function deleteProvider(providerId) {
       saveProviders();
     }
 
-    updateStats();
+    updateDashboard(); // Mettre à jour le dashboard seulement
     renderPendingProviders();
     renderValidatedProviders();
   }
@@ -461,6 +537,7 @@ document.getElementById("editForm").addEventListener("submit", function (e) {
       }
 
       saveProviders();
+      updateDashboard(); // Mettre à jour le dashboard seulement
       renderPendingProviders();
       renderValidatedProviders();
       closeEditModal();
@@ -487,10 +564,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Menu mobile
-     const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-     if (mobileMenuBtn) {
-       mobileMenuBtn.addEventListener("click", toggleMobileMenu);
-     }
+const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+if (mobileMenuBtn) {
+  mobileMenuBtn.addEventListener("click", toggleMobileMenu);
+}
 
 function toggleMobileMenu() {
   const mobileMenu = document.getElementById("mobile-menu");
@@ -530,5 +607,3 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
-
-

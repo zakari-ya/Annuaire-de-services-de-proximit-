@@ -7,6 +7,7 @@
   <title>Administration - Services de Proximité</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
     rel="stylesheet" />
@@ -62,33 +63,48 @@
         </p>
       </div>
 
-      <!-- Statistiques -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-number text-blue-600" id="totalProviders">
-            0
+      <!-- Dashboard avec graphique -->
+      <section class="mb-12">
+        <h2 class="section-heading">
+          Tableau de bord
+        </h2>
+        <div class="dashboard-grid">
+          <!-- Graphique circulaire -->
+          <div class="dashboard-card">
+            <h3 class="dashboard-title">Répartition des prestataires</h3>
+            <div class="chart-container">
+              <canvas id="providersChart"></canvas>
+            </div>
           </div>
-          <div class="stat-text">Total prestataires</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number text-emerald-600" id="validatedProviders">
-            0
+          
+          <!-- Métriques détaillées -->
+          <div class="dashboard-card">
+            <h3 class="dashboard-title">Statistiques détaillées</h3>
+            <div class="metrics-grid">
+              <div class="metric-item">
+                <div class="metric-color bg-blue-500"></div>
+                <span class="metric-label">Total prestataires</span>
+                <span class="metric-value" id="totalProviders">0</span>
+              </div>
+              <div class="metric-item">
+                <div class="metric-color bg-green-500"></div>
+                <span class="metric-label">Validés</span>
+                <span class="metric-value" id="validatedProviders">0</span>
+              </div>
+              <div class="metric-item">
+                <div class="metric-color bg-orange-500"></div>
+                <span class="metric-label">En attente</span>
+                <span class="metric-value" id="pendingProviders">0</span>
+              </div>
+              <div class="metric-item">
+                <div class="metric-color bg-purple-500"></div>
+                <span class="metric-label">Données référence</span>
+                <span class="metric-value" id="jsonProviders">0</span>
+              </div>
+            </div>
           </div>
-          <div class="stat-text">Validés</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-number text-orange-600" id="pendingProviders">
-            0
-          </div>
-          <div class="stat-text">En attente</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number text-purple-600" id="jsonProviders">
-            0
-          </div>
-          <div class="stat-text">Données référence</div>
-        </div>
-      </div>
+      </section>
 
       <!-- Section des prestataires en attente -->
       <section class="mb-12">
