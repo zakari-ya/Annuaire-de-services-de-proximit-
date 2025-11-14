@@ -134,6 +134,7 @@ function getServiceImage(serviceType) {
 // Gestion du formulaire
 document.getElementById("providerForm").addEventListener("submit", function (e) {
   e.preventDefault();
+  launch_toast()
 
   // Récupération des données du formulaire
   const providerData = {
