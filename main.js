@@ -79,7 +79,7 @@ function getServiceImage(serviceType) {
     "Police - Justice":
       "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=300&h=300&fit=crop",
     "Cours de langues":
-      "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=300&h=300&fit=crop",
+      "https://laacademia.co.uk/wp-content/uploads/2021/06/La-Academia-WC-21.6.21-Supplementary-Education-1.jpg",
     "Administration - Service public":
       "https://images.unsplash.com/photo-1551135049-8a33b42738b4?w=300&h=300&fit=crop",
     "Création d'entreprise":
