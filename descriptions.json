@@ -1,0 +1,21 @@
+{
+  "descriptions": {
+    "Plombier": "{{name}} est un plombier professionnel situé à {{zone}}. Services de plomberie résidentielle et commerciale, dépannage urgent, installation et réparation.",
+    "Coiffeur": "Salon de coiffure {{name}} à {{zone}}. Coupes, colorations, soins capillaires et services de beauté dans une ambiance chaleureuse et professionnelle.",
+    "Restaurant": "Restaurant {{name}} à {{zone}}. Cuisine authentique, ambiance conviviale et service attentionné. Découvrez nos spécialités culinaires.",
+    "Boulanger": "Boulangerie {{name}} à {{zone}}. Pain frais quotidien, viennoiseries, pâtisseries maison et produits de qualité depuis de nombreuses années.",
+    "Couturier": "Atelier de couture {{name}} à {{zone}}. Retouches, créations sur mesure, ajustements et réparations de vêtements avec précision et savoir-faire.",
+    "Jardinier": "Service de jardinage {{name}} à {{zone}}. Entretien d'espaces verts, aménagement paysager, taille et soin des plantes pour votre jardin.",
+    "Électricien": "Électricien professionnel {{name}} à {{zone}}. Installation, dépannage et mise aux normes des systèmes électriques résidentiels et commerciaux.",
+    "Mécanicien": "Garage automobile {{name}} à {{zone}}. Réparation, entretien et diagnostic de tous types de véhicules avec des techniciens qualifiés.",
+    "Services à la personne": "{{name}} propose des services à la personne à {{zone}}. Aide à domicile, accompagnement et soutien personnalisé pour tous vos besoins.",
+    "Services aux entreprises": "{{name}} - Services aux entreprises à {{zone}}. Solutions professionnelles adaptées pour optimiser votre activité commerciale.",
+    "Herboristerie": "Herboristerie {{name}} à {{zone}}. Plantes médicinales, tisanes, huiles essentielles et conseils en phytothérapie traditionnelle.",
+    "Site d'information": "{{name}} - Site d'information local à {{zone}}. Actualités, événements et ressources pour la communauté de votre quartier.",
+    "Police - Justice": "{{name}} - Service de police et justice à {{zone}}. Sécurité publique, assistance et services administratifs pour les citoyens.",
+    "Cours de langues": "{{name}} - Cours de langues à {{zone}}. Apprentissage personnalisé, cours particuliers et en groupe pour tous niveaux.",
+    "Administration - Service public": "{{name}} - Service public à {{zone}}. Accompagnement administratif, démarches et informations pour les usagers.",
+    "Création d'entreprise": "{{name}} - Conseil en création d'entreprise à {{zone}}. Accompagnement personnalisé pour le lancement de votre projet.",
+    "Médecins": "Cabinet médical {{name}} à {{zone}}. Soins de santé primaires, consultations et suivi médical par des professionnels qualifiés."
+  }
+}
