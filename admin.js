@@ -607,3 +607,49 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
+
+// Password protection logic
+    const CORRECT_PASSWORD = "admin123";
+    
+    function checkPassword() {
+      const passwordInput = document.getElementById('passwordInput');
+      const passwordError = document.getElementById('passwordError');
+      const passwordOverlay = document.getElementById('passwordOverlay');
+      const mainContent = document.getElementById('mainContent');
+      
+      if (passwordInput.value === CORRECT_PASSWORD) {
+        passwordOverlay.classList.add('hidden');
+        mainContent.classList.remove('hidden');
+        
+        // Trigger any initialization that might be needed
+        if (typeof loadProviders === 'function') {
+          loadProviders();
+        }
+      } else {
+        passwordError.style.display = 'block';
+        passwordInput.value = '';
+        passwordInput.focus();
+        
+        // Shake animation for wrong password
+        if (typeof anime !== 'undefined') {
+          anime({
+            targets: passwordInput,
+            translateX: [0, -10, 10, -10, 10, 0],
+            duration: 400,
+            easing: 'easeInOutSine'
+          });
+        }
+      }
+    }
+    
+    // Allow pressing Enter to submit password
+    document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        checkPassword();
+      }
+    });
+    
+    // Focus on password input when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('passwordInput').focus();
+    });

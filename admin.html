@@ -12,56 +12,7 @@
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
     rel="stylesheet" />
   <link href="admin.css" rel="stylesheet" />
-  <style>
-    .password-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #f8f9f0 0%, #e8ebe3 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-    
-    .password-container {
-      background: white;
-      padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      max-width: 400px;
-      width: 90%;
-    }
-    
-    .password-input {
-      width: 100%;
-      padding: 0.75rem;
-      border: 2px solid #e5e7eb;
-      border-radius: 0.5rem;
-      margin: 1rem 0;
-      font-size: 1rem;
-      transition: border-color 0.3s;
-    }
-    
-    .password-input:focus {
-      outline: none;
-      border-color: #059669;
-    }
-    
-    .password-error {
-      color: #dc2626;
-      margin-top: 0.5rem;
-      font-size: 0.875rem;
-      display: none;
-    }
-    
-    .hidden {
-      display: none !important;
-    }
-  </style>
+
 </head>
 
 <body class="gradient-bg min-h-screen font-sans">
@@ -327,53 +278,7 @@
   </div> <!-- End of mainContent -->
 
   <script src="admin.js"></script>
-  <script>
-    // Password protection logic
-    const CORRECT_PASSWORD = "admin123";
-    
-    function checkPassword() {
-      const passwordInput = document.getElementById('passwordInput');
-      const passwordError = document.getElementById('passwordError');
-      const passwordOverlay = document.getElementById('passwordOverlay');
-      const mainContent = document.getElementById('mainContent');
-      
-      if (passwordInput.value === CORRECT_PASSWORD) {
-        passwordOverlay.classList.add('hidden');
-        mainContent.classList.remove('hidden');
-        
-        // Trigger any initialization that might be needed
-        if (typeof loadProviders === 'function') {
-          loadProviders();
-        }
-      } else {
-        passwordError.style.display = 'block';
-        passwordInput.value = '';
-        passwordInput.focus();
-        
-        // Shake animation for wrong password
-        if (typeof anime !== 'undefined') {
-          anime({
-            targets: passwordInput,
-            translateX: [0, -10, 10, -10, 10, 0],
-            duration: 400,
-            easing: 'easeInOutSine'
-          });
-        }
-      }
-    }
-    
-    // Allow pressing Enter to submit password
-    document.getElementById('passwordInput').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        checkPassword();
-      }
-    });
-    
-    // Focus on password input when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('passwordInput').focus();
-    });
-  </script>
+ 
 </body>
 
 </html>

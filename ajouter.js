@@ -126,7 +126,7 @@ function getServiceImage(serviceType) {
     "Couturier": "https://images.unsplash.com/photo-1594736797933-d0d69c3d15d3?w=400",
     "Jardinier": "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=400",
     "Électricien": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=400",
-    "Mécanicien": "https://images.unsplash.com/photo-1581093458791-8a6a5d583c5e?w=400",
+    "Mécanicien": "https://imgs.search.brave.com/1E2SfDLrl4QoGAz2nkfnTybWC9JIjux_bY7q_Yh9oz8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTQ5/NjI5OTgxMi9mci9w/aG90by9sZS1tJUMz/JUE5Y2FuaWNpZW4t/dHJhdmFpbGxlLXN1/ci1sZS1tb3RldXIt/ZGUtbGEtdm9pdHVy/ZS1kYW5zLWxlLWdh/cmFnZS1yJUMzJUE5/cGFyYXRpb24tc2Uu/anBnP3M9NjEyeDYx/MiZ3PTAmaz0yMCZj/PVl2Tmh5dGJaUzhY/MU1tNVdibGJxaHNy/Ry1Cdy0ybUFsTVN2/NjhvUTU3YjQ9",
   };
   return imageMap[serviceType] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop";
 }
